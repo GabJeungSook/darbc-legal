@@ -1,37 +1,49 @@
 <div>
-   <!--
-  This example requires some changes to your config:
+    <div x-data="{ activeTab: 'Type' }">
+        <div class="hidden sm:block">
+            <nav class="flex space-x-4" aria-label="Tabs">
+                <!-- Current: "bg-gray-200 text-gray-800", Default: "text-gray-600 hover:text-gray-800" -->
+                <a href="#" class="text-gray-600 hover:text-gray-800 rounded-md px-3 py-2 text-sm font-medium"
+                    :class="{ 'bg-indigo-200 text-gray-800 rounded-md px-3 py-2 text-sm font-medium': activeTab === 'Type',
+                    'text-gray-600 hover:text-gray-800 rounded-md px-3 py-2 text-sm font-medium': activeTab !== 'Type' }"
+                    @click.prevent="activeTab = 'Type'">Type of Case</a>
+                <a href="#" class="text-gray-600 hover:text-gray-800 rounded-md px-3 py-2 text-sm font-medium"
+                :class="{ 'bg-indigo-200 text-gray-800 rounded-md px-3 py-2 text-sm font-medium': activeTab === 'Branch',
+                'text-gray-600 hover:text-gray-800 rounded-md px-3 py-2 text-sm font-medium': activeTab !== 'Branch' }"
+                    @click.prevent="activeTab = 'Branch'">Branch</a>
+                <a href="#" class="text-gray-600 hover:text-gray-800 rounded-md px-3 py-2 text-sm font-medium"
+                :class="{ 'bg-indigo-200 text-gray-800 rounded-md px-3 py-2 text-sm font-medium': activeTab === 'Status',
+                'text-gray-600 hover:text-gray-800 rounded-md px-3 py-2 text-sm font-medium': activeTab !== 'Status' }"
+                    aria-current="page" @click.prevent="activeTab = 'Status'">Status</a>
+            </nav>
+        </div>
 
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
-<div>
-    <div class="sm:hidden">
-      <label for="tabs" class="sr-only">Select a tab</label>
-      <!-- Use an "onChange" listener to redirect the user to the selected tab URL. -->
-      <select id="tabs" name="tabs" class="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
-        <option>My Account</option>
-        <option>Company</option>
-        <option selected>Team Members</option>
-        <option>Billing</option>
-      </select>
+        <div x-show="activeTab === 'Type'">
+            <div class="flex justify-center items-center">
+                <div class="relative block mt-3 w-full rounded-lg text-center focus:outline-none">
+                    <span class="mt-2 block text-gray-600">
+                        <livewire:settings.type />
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div x-show="activeTab === 'Branch'">
+            <div class="flex justify-center items-center">
+                <div class="relative block mt-3 w-full rounded-lg text-center focus:outline-none">
+                    <span class="mt-2 block text-gray-600">
+                        <livewire:settings.branch />
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div x-show="activeTab === 'Status'">
+            <div class="flex justify-center items-center">
+                <div class="relative block mt-3 w-full rounded-lg text-center focus:outline-none">
+                    <span class="mt-2 block text-gray-600">
+                        <livewire:settings.status />
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="hidden sm:block">
-      <nav class="flex space-x-4" aria-label="Tabs">
-        <!-- Current: "bg-gray-200 text-gray-800", Default: "text-gray-600 hover:text-gray-800" -->
-        <a href="#" class="text-gray-600 hover:text-gray-800 rounded-md px-3 py-2 text-sm font-medium">Type of Case</a>
-        <a href="#" class="text-gray-600 hover:text-gray-800 rounded-md px-3 py-2 text-sm font-medium">Branch</a>
-        <a href="#" class="bg-indigo-200 text-gray-800 rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Status</a>
-      </nav>
-    </div>
-  </div>
-
 </div>

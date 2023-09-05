@@ -2,14 +2,22 @@
 
 namespace App\Http\Livewire\Admin;
 
-use Livewire\Component;
+use DB;
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Branch;
+use App\Models\Status;
+use Livewire\Component;
+use App\Models\TypeOfCase;
+use WireUi\Traits\Actions;
+use Filament\Forms\Components\Grid;
+use Filament\Tables\Actions\Action;
+use Filament\Forms\Components\Fieldset;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Masterlist as MasterlistModel;
-use Filament\Tables\Actions\Action;
-use WireUi\Traits\Actions;
-use DB;
+
 class Masterlist extends Component implements Tables\Contracts\HasTable
 {
     use Tables\Concerns\InteractsWithTable;
@@ -24,45 +32,170 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
     {
         return [
             Action::make('create')
-            ->label('Add Member')
+            ->label('Add New')
             ->button()
             ->color('primary')
             ->icon('heroicon-o-plus')
             ->action(function (array $data): void {
-                // MasterlistModel::create([
-                //     'member_id' => $data['member_id'],
-                //     'first_name' => $data['first_name'],
-                //     'middle_name' => $data['middle_name'],
-                //     'last_name' => $data['last_name'],
-                //     'tin_number' => $data['tin_number'],
-                //     'address' => $data['address'],
-                //     'date_of_birth' => $data['date_of_birth'],
-                //     'age' => $data['age'],
-                //     'gender' => $data['gender'],
-                //     'civil_status' => $data['civil_status'],
-                //     'educational_attainment' => $data['educational_attainment'],
-                //     'occupation' => $data['occupation'],
-                //     'dependent_number' => $data['dependent_number'],
-                //     'religion' => $data['religion'],
-                //     'income' => $data['income'],
-                //     'date_accepted' => $data['date_accepted'],
-                //     'bod_number' => $data['bod_number'],
-                //     'membership_type' => $data['membership_type'],
-                //     'number_of_shares' => $data['number_of_shares'],
-                //     'amount_subscribed' => $data['amount_subscribed'],
-                //     'initial_paid_up' => $data['initial_paid_up'],
-                //     'bod_resolution' => $data['bod_resolution'],
-                //     'date_created' => $data['date_created'],
-                //     'image_path' => $data['image_path'],
-                // ]);
+                if(TypeOfCase::exists() || Branch::exists() || Status::exists())
+                {
+                    DB::beginTransaction();
+                    MasterlistModel::create([
+                        'type_of_case_id' => $data['type_of_case_id'],
+                        'branch_id' => $data['branch_id'],
+                        'status_id' => $data['status_id'],
+                        'case_code' => $data['case_code'],
+                        'case_number' => $data['case_number'],
+                        'case_title' => $data['case_title'],
+                        'case_nature' => $data['case_nature'],
+                        'legal_counsel' => $data['legal_counsel'],
+                        'opposing_counsel' => $data['opposing_counsel'],
+                        'date_filed' => $data['date_filed'],
+                    ]);
+                    DB::commit();
+                    $this->dialog()->success(
+                        $title = 'Success',
+                        $description = 'Saved successfully'
+                    );
+                }else{
+                    $this->dialog()->error(
+                        $title = 'Cannot Add Data',
+                        $description = 'Some data are missing (Type of Case, Branch, Status). Please check the settings.'
+                    );
+                }
+            })
+            ->form([
+                Grid::make(2)
+                ->schema([
+                    Forms\Components\TextInput::make('case_code')->label("Case Code")
+                    ->required(),
+                    Forms\Components\TextInput::make('case_number')->label("Case Number")
+                    ->required(),
+                    Forms\Components\TextInput::make('case_title')->label("Case Title")
+                    ->required(),
+                    Forms\Components\TextInput::make('case_nature')->label("Nature Of Case")
+                    ->required(),
+                ]),
+                Forms\Components\Select::make('type_of_case_id')->label("Type Of Case")
+                ->options(TypeOfCase::pluck('name', 'id'))
+                ->required(),
+                Grid::make(2)
+                ->schema([
+                    Forms\Components\TextInput::make('legal_counsel')->label("Legal Counsel")
+                    ->required(),
+                    Forms\Components\TextInput::make('opposing_counsel')->label("Counsel of Opposing Party")
+                    ->required(),
+                ]),
+                Grid::make(2)
+                ->schema([
+                    Forms\Components\Select::make('branch_id')->label("Branch")
+                    ->options(Branch::pluck('name', 'id'))
+                    ->required()
+                    ->reactive()
+                    ->afterStateUpdated(function ($set, $state) {
+                        $address = Branch::find($state)->address;
+                        $set('address', $address);
+                    }),
+                    Forms\Components\TextInput::make('address')->disabled(),
+                ]),
+                Grid::make(2)
+                ->schema([
+                    Forms\Components\Select::make('status_id')->label("Status")
+                    ->options(Status::pluck('name', 'id'))
+                    ->required(),
+                    Forms\Components\DatePicker::make('date_filed')->label("Date Filed")
+                    ->required(),
+                ]),
+
+            ])
+        ];
+    }
+
+    protected function getTableActions()
+    {
+        return [
+            Action::make('edit')
+            ->icon('heroicon-o-pencil')
+            ->label('Update')
+            ->button()
+            ->outlined()
+            ->color('success')
+            ->mountUsing(fn (Forms\ComponentContainer $form, MasterlistModel $record) => $form->fill([
+                'type_of_case_id' => $record->type_of_case_id,
+                'branch_id' => $record->branch_id,
+                'address' => $record->branch->address,
+                'status_id' => $record->status_id,
+                'case_code' => $record->case_code,
+                'case_number' => $record->case_number,
+                'case_title' => $record->case_title,
+                'case_nature' => $record->case_nature,
+                'legal_counsel' => $record->legal_counsel,
+                'opposing_counsel' => $record->opposing_counsel,
+                'date_filed' => $record->date_filed,
+            ]))
+            ->action(function (MasterlistModel $record, array $data): void {
+                DB::beginTransaction();
+                $record->type_of_case_id = $data['type_of_case_id'];
+                $record->branch_id = $data['branch_id'];
+                $record->status_id = $data['status_id'];
+                $record->case_code = $data['case_code'];
+                $record->case_number = $data['case_number'];
+                $record->case_title = $data['case_title'];
+                $record->case_nature = $data['case_nature'];
+                $record->legal_counsel = $data['legal_counsel'];
+                $record->opposing_counsel = $data['opposing_counsel'];
+                $record->date_filed = $data['date_filed'];
+                $record->save();
+                DB::commit();
                 $this->dialog()->success(
                     $title = 'Success',
-                    $description = 'Saved successfully'
+                    $description = 'Updated successfully'
                 );
             })
             ->form([
+                Grid::make(2)
+                ->schema([
+                    Forms\Components\TextInput::make('case_code')->label("Case Code")
+                    ->required(),
+                    Forms\Components\TextInput::make('case_number')->label("Case Number")
+                    ->required(),
+                    Forms\Components\TextInput::make('case_title')->label("Case Title")
+                    ->required(),
+                    Forms\Components\TextInput::make('case_nature')->label("Nature Of Case")
+                    ->required(),
+                ]),
+                Forms\Components\Select::make('type_of_case_id')->label("Type Of Case")
+                ->options(TypeOfCase::pluck('name', 'id'))
+                ->required(),
+                Grid::make(2)
+                ->schema([
+                    Forms\Components\TextInput::make('legal_counsel')->label("Legal Counsel")
+                    ->required(),
+                    Forms\Components\TextInput::make('opposing_counsel')->label("Counsel of Opposing Party")
+                    ->required(),
+                ]),
+                Grid::make(2)
+                ->schema([
+                    Forms\Components\Select::make('branch_id')->label("Branch")
+                    ->options(Branch::pluck('name', 'id'))
+                    ->required()
+                    ->reactive()
+                    ->afterStateUpdated(function ($set, $state) {
+                        $address = Branch::find($state)->address;
+                        $set('address', $address);
+                    }),
+                    Forms\Components\TextInput::make('address')->disabled(),
+                ]),
+                Grid::make(2)
+                ->schema([
+                    Forms\Components\Select::make('status_id')->label("Status")
+                    ->options(Status::pluck('name', 'id'))
+                    ->required(),
+                    Forms\Components\DatePicker::make('date_filed')->label("Date Filed")
+                    ->required(),
+                ]),
 
-            ])
+            ]),
         ];
     }
 
@@ -84,7 +217,7 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
             Tables\Columns\TextColumn::make('opposing_counsel')
             ->label('COUNSEL OF OPPOSING PARTY'),
             Tables\Columns\TextColumn::make('date_filed')
-            ->label('DATE FILED'),
+            ->label('DATE FILED')->date('F d, Y'),
             Tables\Columns\TextColumn::make('branch.name')
             ->label('BRANCH'),
         ];
