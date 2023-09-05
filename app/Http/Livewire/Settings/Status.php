@@ -71,7 +71,7 @@ class Status extends Component implements Tables\Contracts\HasTable
             })
             ->form([
                 Forms\Components\TextInput::make('name')->label("Name")->required(),
-            ]),
+            ])->visible(fn ($record) => $record->masterlists->count() === 0),
             Action::make('delete')
             ->icon('heroicon-o-trash')
             ->button()
@@ -79,6 +79,7 @@ class Status extends Component implements Tables\Contracts\HasTable
             ->color('danger')
             ->action(fn ($record) => $record->delete())
             ->requiresConfirmation()
+            ->visible(fn ($record) => $record->masterlists->count() === 0)
         ];
     }
 
