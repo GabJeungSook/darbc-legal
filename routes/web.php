@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\Masterlist;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,14 @@ Route::get('/dashboard', function () {
 Route::get('/masterlist', function () {
     return view('admin.masterlist');
 })->middleware(['auth', 'verified'])->name('masterlist');
+
+Route::get('/masterlist-data/{record}', function ($record) {
+    $masterlistRecord = Masterlist::findOrFail($record);
+
+    return view('admin.view-masterlist-data', ['record' => $masterlistRecord]);
+})
+    ->middleware(['auth', 'verified'])
+    ->name('view-masterlist-data');
 
 Route::get('/settings', function () {
     return view('admin.settings');

@@ -4,6 +4,7 @@ const colors = require('tailwindcss/colors')
 module.exports = {
   presets: [require('./vendor/wireui/wireui/tailwind.config.js')],
   content: [
+    './vendor/awcodes/filament-table-repeater/resources/**/*.blade.php',
     './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
     './storage/framework/views/*.php',
     './resources/views/**/*.blade.php',

@@ -10,7 +10,7 @@ class Branch extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function masterlist()
+    public function masterlists()
     {
         return $this->hasMany(Masterlist::class);
     }

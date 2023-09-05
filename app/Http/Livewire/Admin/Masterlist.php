@@ -10,6 +10,7 @@ use App\Models\Status;
 use Livewire\Component;
 use App\Models\TypeOfCase;
 use WireUi\Traits\Actions;
+use App\Models\ExistingCase;
 use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Fieldset;
@@ -17,11 +18,13 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Masterlist as MasterlistModel;
+use Awcodes\FilamentTableRepeater\Components\TableRepeater;
 
 class Masterlist extends Component implements Tables\Contracts\HasTable
 {
     use Tables\Concerns\InteractsWithTable;
     use Actions;
+
 
     protected function getTableQuery(): Builder
     {
@@ -40,7 +43,7 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
                 if(TypeOfCase::exists() || Branch::exists() || Status::exists())
                 {
                     DB::beginTransaction();
-                    MasterlistModel::create([
+                   $masterlist = MasterlistModel::create([
                         'type_of_case_id' => $data['type_of_case_id'],
                         'branch_id' => $data['branch_id'],
                         'status_id' => $data['status_id'],
@@ -52,6 +55,14 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
                         'opposing_counsel' => $data['opposing_counsel'],
                         'date_filed' => $data['date_filed'],
                     ]);
+
+                    foreach ($data['case'] as $item) {
+                        ExistingCase::create([
+                            'masterlist_id' => $masterlist->id,
+                            'subject' => $item['subject'],
+                            'other_data' => json_encode($item['other_data'])
+                        ]);
+                    }
                     DB::commit();
                     $this->dialog()->success(
                         $title = 'Success',
@@ -106,14 +117,43 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
                     Forms\Components\DatePicker::make('date_filed')->label("Date Filed")
                     ->required(),
                 ]),
+                Forms\Components\Repeater::make('case')
+                ->schema([
+                    Forms\Components\TextInput::make('subject'),
+                    TableRepeater::make('other_data')
+                    ->label('')
+                    ->createItemButtonLabel('Add row')
+                    ->schema([
+                        Forms\Components\DatePicker::make('date_time')
+                        ->disableLabel(),
+                       TextInput::make('subject_area')
+                        ->disableLabel(),
+                        TextInput::make('summary_of_case')
+                        ->disableLabel(),
+                        TextInput::make('petitioners_representative')
+                        ->disableLabel(),
+                        TextInput::make('executed_by')
+                        ->disableLabel(),
+                        TextInput::make('status')
+                        ->disableLabel(),
+                    ])
+                    ->columnSpan('full')
+                ])
 
-            ])
+            ])->modalWidth('7xl')
         ];
     }
 
     protected function getTableActions()
     {
         return [
+            Action::make('view')
+            ->button()
+            ->outlined()
+            ->icon('heroicon-o-eye')
+            ->color('primary')
+            ->url(fn (MasterListModel $record): string => route('view-masterlist-data', $record))
+            ->openUrlInNewTab(),
             Action::make('edit')
             ->icon('heroicon-o-pencil')
             ->label('Update')
@@ -132,6 +172,12 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
                 'legal_counsel' => $record->legal_counsel,
                 'opposing_counsel' => $record->opposing_counsel,
                 'date_filed' => $record->date_filed,
+                'case' => $record->existing_cases->map(function (ExistingCase $case) {
+                    return [
+                        'subject' => $case->subject,
+                        'other_data' => json_decode($case->other_data, true),
+                    ];
+                })->toArray(),
             ]))
             ->action(function (MasterlistModel $record, array $data): void {
                 DB::beginTransaction();
@@ -146,6 +192,43 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
                 $record->opposing_counsel = $data['opposing_counsel'];
                 $record->date_filed = $data['date_filed'];
                 $record->save();
+
+                $existingSubjects = ExistingCase::where('masterlist_id', $record->id)
+                ->pluck('subject')
+                ->toArray();
+
+            foreach ($data['case'] as $item) {
+                $existingCase = ExistingCase::where('masterlist_id', $record->id)
+                    ->where('subject', $item['subject'])
+                    ->first();
+
+                if ($existingCase) {
+                    // Check if subject or other_data has changed
+                    $subjectChanged = $existingCase->subject !== $item['subject'];
+                    $otherDataChanged = $existingCase->other_data !== json_encode($item['other_data']);
+
+                    if ($subjectChanged || $otherDataChanged) {
+                        $existingCase->subject = $item['subject'];
+                        $existingCase->other_data = json_encode($item['other_data']);
+                        $existingCase->save();
+                    }
+                } else {
+                    // Create a new record for a new subject
+                    ExistingCase::create([
+                        'masterlist_id' => $record->id,
+                        'subject' => $item['subject'],
+                        'other_data' => json_encode($item['other_data']),
+                    ]);
+                }
+            }
+
+            // Delete ExistingCase records for removed subjects
+            ExistingCase::where('masterlist_id', $record->id)
+                ->whereNotIn('subject', collect($data['case'])->pluck('subject')->toArray())
+                ->delete();
+
+
+
                 DB::commit();
                 $this->dialog()->success(
                     $title = 'Success',
@@ -194,8 +277,30 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
                     Forms\Components\DatePicker::make('date_filed')->label("Date Filed")
                     ->required(),
                 ]),
+                Forms\Components\Repeater::make('case')
+                ->schema([
+                    Forms\Components\TextInput::make('subject'),
+                    TableRepeater::make('other_data')
+                    ->label('')
+                    ->createItemButtonLabel('Add row')
+                    ->schema([
+                        Forms\Components\DatePicker::make('date_time')
+                        ->disableLabel(),
+                       TextInput::make('subject_area')
+                        ->disableLabel(),
+                        TextInput::make('summary_of_case')
+                        ->disableLabel(),
+                        TextInput::make('petitioners_representative')
+                        ->disableLabel(),
+                        TextInput::make('executed_by')
+                        ->disableLabel(),
+                        TextInput::make('status')
+                        ->disableLabel(),
+                    ])
+                    ->columnSpan('full')
+                ])
 
-            ]),
+            ])->modalWidth('7xl')
         ];
     }
 
@@ -222,7 +327,6 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
             ->label('BRANCH'),
         ];
     }
-
 
     public function render()
     {

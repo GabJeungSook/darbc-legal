@@ -10,6 +10,11 @@ class Masterlist extends Model
     use HasFactory;
     protected $guarded = [];
 
+    public function existing_cases()
+    {
+        return $this->hasMany(ExistingCase::class);
+    }
+
     public function type_of_case()
     {
         return $this->belongsTo(TypeOfCase::class);
