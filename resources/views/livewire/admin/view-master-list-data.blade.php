@@ -104,7 +104,7 @@
             <div class="mt-5">
                 <div class="px-4 sm:px-6 lg:px-8">
                     <div class="sm:flex-auto">
-                        <h1 class="text-base font-semibold leading-6 text-gray-900">Cases</h1>
+                        <h1 class="font-semibold text-lg text-center uppercase leading-6 text-gray-900">Cases</h1>
                       </div>
                     <div class="mt-8 flow-root">
                       <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
