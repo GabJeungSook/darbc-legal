@@ -16,6 +16,7 @@ use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Fieldset;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Masterlist as MasterlistModel;
 use Awcodes\FilamentTableRepeater\Components\TableRepeater;
@@ -56,11 +57,18 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
                         'date_filed' => $data['date_filed'],
                     ]);
 
-                    foreach ($data['case'] as $item) {
-                        ExistingCase::create([
+                    foreach ($data['case'] as $key => $item) {
+                        $attachment = $item['other_data'][$key]['attachment'];
+                        // $attachment = $otherData['attachment'];
+                        $existing_case = ExistingCase::create([
                             'masterlist_id' => $masterlist->id,
                             'subject' => $item['subject'],
                             'other_data' => json_encode($item['other_data'])
+                        ]);
+
+                        $existing_case->attachments()->create([
+                            "path"=>$attachment,
+                            "document_name"=>$attachment,
                         ]);
                     }
                     DB::commit();
@@ -126,7 +134,7 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
                     ->schema([
                         Forms\Components\DatePicker::make('date_time')
                         ->disableLabel(),
-                       TextInput::make('subject_area')
+                        TextInput::make('subject_area')
                         ->disableLabel(),
                         TextInput::make('summary_of_case')
                         ->disableLabel(),
@@ -135,6 +143,9 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
                         TextInput::make('executed_by')
                         ->disableLabel(),
                         TextInput::make('status')
+                        ->disableLabel(),
+                        FileUpload::make('attachment')
+                        ->preserveFilenames()
                         ->disableLabel(),
                     ])
                     ->columnSpan('full')

@@ -39,6 +39,10 @@ Route::get('/settings', function () {
     return view('admin.settings');
 })->middleware(['auth', 'verified'])->name('settings');
 
+Route::get('/reports', function () {
+    return view('admin.report');
+})->middleware(['auth', 'verified'])->name('reports');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

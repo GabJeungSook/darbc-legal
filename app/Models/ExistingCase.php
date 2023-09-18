@@ -10,6 +10,11 @@ class ExistingCase extends Model
     use HasFactory;
     protected $guarded = [];
 
+    public function attachments()
+    {
+        return $this->morphMany(Attachment::class, 'documentable');
+    }
+
     public function masterlist()
     {
         return $this->belongsTo(Masterlist::class);
