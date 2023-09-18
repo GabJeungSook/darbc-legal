@@ -14,23 +14,23 @@
       <table id="example" class="table-auto mt-5" style="width:100%">
         <thead class="font-normal">
           <tr>
-            <th class="border text-left whitespace-nowrap px-2 text-sm font-medium text-gray-500 py-2">CASE CODE
+            <th class="border text-left whitespace-nowrap px-2 text-sm font-semibold text-gray-500 py-2">CASE CODE
             </th>
-            <th class="border text-left whitespace-nowrap px-2 text-sm font-medium text-gray-500 py-2">CASE NUMBER
+            <th class="border text-left whitespace-nowrap px-2 text-sm font-semibold text-gray-500 py-2">CASE NUMBER
             </th>
-            <th class="border text-left whitespace-nowrap px-2 text-sm font-medium text-gray-500 py-2">CASE TITLE
+            <th class="border text-left whitespace-nowrap px-2 text-sm font-semibold text-gray-500 py-2">CASE TITLE
             </th>
-            <th class="border text-left whitespace-nowrap px-2 text-sm font-medium text-gray-500 py-2">NATURE OF CASE
+            <th class="border text-left whitespace-nowrap px-2 text-sm font-semibold text-gray-500 py-2">NATURE OF CASE
             </th>
-            <th class="border text-left whitespace-nowrap px-2 text-sm font-medium text-gray-500 py-2">TYPE OF CASE
+            <th class="border text-left whitespace-nowrap px-2 text-sm font-semibold text-gray-500 py-2">TYPE OF CASE
             </th>
-            <th class="border text-left whitespace-nowrap px-2 text-sm font-medium text-gray-500 py-2">LEGAL COUNSEL
+            <th class="border text-left whitespace-nowrap px-2 text-sm font-semibold text-gray-500 py-2">LEGAL COUNSEL
             </th>
-            <th class="border text-left whitespace-nowrap px-2 text-sm font-medium text-gray-500 py-2">CONSEL OF OPPOSING PARTY
+            <th class="border text-left whitespace-nowrap px-2 text-sm font-semibold text-gray-500 py-2">CONSEL OF OPPOSING PARTY
             </th>
-            <th class="border text-left whitespace-nowrap px-2 text-sm font-medium text-gray-500 py-2">DATE FILED
+            <th class="border text-left whitespace-nowrap px-2 text-sm font-semibold text-gray-500 py-2">DATE FILED
             </th>
-            <th class="border text-left whitespace-nowrap px-2 text-sm font-medium text-gray-500 py-2">BRANCH
+            <th class="border text-left whitespace-nowrap px-2 text-sm font-semibold text-gray-500 py-2">BRANCH
             </th>
 
           </tr>

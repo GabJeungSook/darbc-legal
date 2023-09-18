@@ -334,15 +334,15 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
             Tables\Columns\TextColumn::make('case_nature')
             ->label('NATURE OF CASE')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('type_of_case.name')
-            ->label('TYPE OF CASE')->sortable(),
+            ->label('TYPE OF CASE')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('legal_counsel')
-            ->label('LEGAL COUNSEL')->sortable(),
+            ->label('LEGAL COUNSEL')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('opposing_counsel')
-            ->label('COUNSEL OF OPPOSING PARTY')->sortable(),
+            ->label('COUNSEL OF OPPOSING PARTY')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('date_filed')
-            ->label('DATE FILED')->date('F d, Y')->sortable(),
+            ->label('DATE FILED')->date('F d, Y')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('branch.name')
-            ->label('BRANCH')->sortable(),
+            ->label('BRANCH')->sortable()->searchable(),
         ];
     }
 
