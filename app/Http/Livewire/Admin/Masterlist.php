@@ -326,23 +326,23 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
     {
         return [
             Tables\Columns\TextColumn::make('case_code')
-            ->label('CASE CODE'),
+            ->label('CASE CODE')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('case_number')
-            ->label('CASE NUMBER'),
+            ->label('CASE NUMBER')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('case_title')
-            ->label('CASE TITLE'),
+            ->label('CASE TITLE')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('case_nature')
-            ->label('NATURE OF CASE'),
+            ->label('NATURE OF CASE')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('type_of_case.name')
-            ->label('TYPE OF CASE'),
+            ->label('TYPE OF CASE')->sortable(),
             Tables\Columns\TextColumn::make('legal_counsel')
-            ->label('LEGAL COUNSEL'),
+            ->label('LEGAL COUNSEL')->sortable(),
             Tables\Columns\TextColumn::make('opposing_counsel')
-            ->label('COUNSEL OF OPPOSING PARTY'),
+            ->label('COUNSEL OF OPPOSING PARTY')->sortable(),
             Tables\Columns\TextColumn::make('date_filed')
-            ->label('DATE FILED')->date('F d, Y'),
+            ->label('DATE FILED')->date('F d, Y')->sortable(),
             Tables\Columns\TextColumn::make('branch.name')
-            ->label('BRANCH'),
+            ->label('BRANCH')->sortable(),
         ];
     }
 
