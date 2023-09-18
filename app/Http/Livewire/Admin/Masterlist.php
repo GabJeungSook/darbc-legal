@@ -127,24 +127,31 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
                 ]),
                 Forms\Components\Repeater::make('case')
                 ->schema([
-                    Forms\Components\TextInput::make('subject'),
+                    Forms\Components\TextInput::make('subject')->required(),
                     TableRepeater::make('other_data')
                     ->label('')
                     ->createItemButtonLabel('Add row')
                     ->schema([
                         Forms\Components\DatePicker::make('date_time')
+                        ->required()
                         ->disableLabel(),
                         TextInput::make('subject_area')
+                        ->required()
                         ->disableLabel(),
                         TextInput::make('summary_of_case')
+                        ->required()
                         ->disableLabel(),
                         TextInput::make('petitioners_representative')
+                        ->required()
                         ->disableLabel(),
                         TextInput::make('executed_by')
+                        ->required()
                         ->disableLabel(),
                         TextInput::make('status')
+                        ->required()
                         ->disableLabel(),
                         FileUpload::make('attachment')
+                        ->required()
                         ->preserveFilenames()
                         ->disableLabel(),
                     ])
