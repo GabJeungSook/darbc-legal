@@ -24,19 +24,19 @@
       <div class="mt-5 flex space-x-2 ">
         <x-button label="PRINT" sm dark icon="printer" class="font-bold"
           @click="printOut($refs.printContainer.outerHTML);" />
-        <x-button label="EXPORT" sm positive wire:click="exportReport({{ $report_get }})"
-          spinner="exportReport({{ $report_get }})" icon="document-text" class="font-bold" />
+        {{-- <x-button label="EXPORT" sm positive wire:click="exportReport({{ $report_get }})"
+          spinner="exportReport({{ $report_get }})" icon="document-text" class="font-bold" /> --}}
       </div>
       @if ($report_get == 1)
         <div class="flex space-x-2">
-          <x-datetime-picker label="From" placeholder="Select Date" without-time wire:model="date_from" />
-          <x-datetime-picker label="To" placeholder="Select Date" without-time wire:model="date_to" />
-            <x-select label="Select Status" multiselect placeholder="All" wire:model="status">
+          {{-- <x-datetime-picker label="From" placeholder="Select Date" without-time wire:model="date_from" />
+          <x-datetime-picker label="To" placeholder="Select Date" without-time wire:model="date_to" /> --}}
+            {{-- <x-select label="Select Status" multiselect placeholder="All" wire:model="status">
                 <x-select.option label="Encoded" value="ENCODED" />
                 <x-select.option label="Transmitted" value="TRANSMITTED" />
                 <x-select.option label="Paid" value="PAID" />
                 <x-select.option label="Unpaid" value="UNPAID" />
-            </x-select>
+            </x-select> --}}
         </div>
         {{-- @elseif ($report_get == 2 || $report_get == 7 ||  $report_get == 8)
         <div class="flex space-x-2">
@@ -55,20 +55,8 @@
   <div class="mt-5 border rounded-lg p-4" x-ref="printContainer">
     @switch($report_get)
       @case(1)
-        @include('reports.health')
+        @include('reports.masterlist')
       @break
-      {{-- @case(2)
-        @include('reports.transmittals')
-      @break
-      @case(7)
-        @include('reports.paid')
-      @break
-      @case(8)
-      @include('reports.encoded')
-      @break
-      @case(10)
-      @include('reports.belowten')
-      @break --}}
       @default
         <h1 class="text-gray-600">Select report to generate.</h1>
       @break
