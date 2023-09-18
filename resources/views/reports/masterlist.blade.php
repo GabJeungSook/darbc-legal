@@ -38,15 +38,15 @@
         <tbody class="">
           @foreach ($masterlists as $item)
             <tr>
-              <td class="border text-gray-600  px-3 whitespace-nowrap py-1">{{ strtoupper($item->case_code) }}</td>
-              <td class="border text-gray-600 whitespace-nowrap  px-3  py-1">{{ strtoupper($item->case_number) }}</td>
-              <td class="border text-gray-600 whitespace-nowrap  px-3  py-1">{{ strtoupper($item->case_title) }}</td>
-              <td class="border text-gray-600  px-3  py-1">{{ strtoupper($item->case_nature) }}</td>
-              <td class="border text-gray-600  px-3  py-1">{{ strtoupper($item->type_of_case->name) }}</td>
-              <td class="border text-gray-600  px-3  py-1">{{ strtoupper($item->legal_counsel) }}</td>
-              <td class="border text-gray-600  px-3  py-1">{{ strtoupper($item->opposing_counsel) }}</td>
-              <td class="border text-gray-600  px-3  py-1">{{ Carbon\Carbon::parse($item->date_filed)->format('F d, Y') }}</td>
-              <td class="border text-gray-600  px-3  py-1">{{ strtoupper($item->branch->name) }}</td>
+              <td class="border text-gray-600 text-sm whitespace-nowrap px-3 py-1">{{ strtoupper($item->case_code) }}</td>
+              <td class="border text-gray-600 text-sm whitespace-nowrap px-3  py-1">{{ strtoupper($item->case_number) }}</td>
+              <td class="border text-gray-600 text-sm whitespace-nowrap px-3  py-1">{{ strtoupper($item->case_title) }}</td>
+              <td class="border text-gray-600 text-sm whitespace-nowrap px-3  py-1">{{ strtoupper($item->case_nature) }}</td>
+              <td class="border text-gray-600 text-sm whitespace-nowrap px-3  py-1">{{ strtoupper($item->type_of_case->name) }}</td>
+              <td class="border text-gray-600 text-sm whitespace-nowrap px-3  py-1">{{ strtoupper($item->legal_counsel) }}</td>
+              <td class="border text-gray-600 text-sm whitespace-nowrap px-3  py-1">{{ strtoupper($item->opposing_counsel) }}</td>
+              <td class="border text-gray-600 text-sm whitespace-nowrap px-3  py-1">{{ Carbon\Carbon::parse($item->date_filed)->format('F d, Y') }}</td>
+              <td class="border text-gray-600 text-sm whitespace-nowrap px-3  py-1">{{ strtoupper($item->branch->name) }}</td>
             </tr>
           @endforeach
         </tbody>
