@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TypeOfCase extends Model
+class CaseTemplate extends Model
 {
     use HasFactory;
     protected $guarded = [];
 
-    public function masterlists()
+    public function type_of_case()
     {
-        return $this->hasMany(Masterlist::class);
+        return $this->belongsTo(TypeOfCase::class);
     }
 
-    public function case_templates()
+    public function branch()
     {
-        return $this->hasMany(CaseTemplate::class);
+        return $this->belongsTo(Branch::class);
     }
 }

@@ -12,8 +12,7 @@
               <option value={{$report->id}}>{{$report->report_name}}</option>
               @endforeach --}}
               <option value="1">Masterlist</option>
-              {{-- <option value="2">Transmitted Report</option>
-              <option value="3">Masterlist</option> --}}
+              <option value="2">Case Template</option>
             </x-native-select>
             <x-button.circle positive icon="refresh" spinner="report_get" />
           </div>
@@ -21,14 +20,15 @@
 
   @if ($report_get)
     <div class="mt-5 flex justify-between items-end">
-      <div class="mt-5 flex space-x-2 ">
+
+      @if ($report_get == 1)
+        <div class="flex space-x-2">
+             <div class="mt-5 flex space-x-2 ">
         <x-button label="PRINT" sm dark icon="printer" class="font-bold"
           @click="printOut($refs.printContainer.outerHTML);" />
         {{-- <x-button label="EXPORT" sm positive wire:click="exportReport({{ $report_get }})"
           spinner="exportReport({{ $report_get }})" icon="document-text" class="font-bold" /> --}}
       </div>
-      @if ($report_get == 1)
-        <div class="flex space-x-2">
           {{-- <x-datetime-picker label="From" placeholder="Select Date" without-time wire:model="date_from" />
           <x-datetime-picker label="To" placeholder="Select Date" without-time wire:model="date_to" /> --}}
             {{-- <x-select label="Select Status" multiselect placeholder="All" wire:model="status">
@@ -57,6 +57,9 @@
       @case(1)
         @include('reports.masterlist')
       @break
+      @case(2)
+      @include('admin.report.case-template')
+    @break
       @default
         <h1 class="text-gray-600">Select report to generate.</h1>
       @break

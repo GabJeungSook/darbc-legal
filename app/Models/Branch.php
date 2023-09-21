@@ -14,4 +14,9 @@ class Branch extends Model
     {
         return $this->hasMany(Masterlist::class);
     }
+
+    public function case_templates()
+    {
+        return $this->hasMany(CaseTemplate::class);
+    }
 }

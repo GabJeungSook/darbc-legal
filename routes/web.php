@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\CaseTemplate;
 use App\Models\Masterlist;
 use Illuminate\Support\Facades\Route;
 
@@ -42,6 +43,14 @@ Route::get('/settings', function () {
 Route::get('/reports', function () {
     return view('admin.report');
 })->middleware(['auth', 'verified'])->name('reports');
+
+Route::get('/reports/case-template/{record}', function ($record) {
+    $caseTemplate = CaseTemplate::findOrFail($record);
+
+    return view('admin.report.view-case-template', ['record' => $caseTemplate]);
+})
+    ->middleware(['auth', 'verified'])
+    ->name('view-case-template');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
