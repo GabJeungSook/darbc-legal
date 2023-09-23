@@ -62,7 +62,6 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
                     ->required(),
                     Forms\Components\TextInput::make('case_nature')->label("Nature Of Case")
                     ->required(),
-                    Forms\Components\TextInput::make('address')->disabled(),
                     Forms\Components\Select::make('branch_id')->label("Branch")
                         ->options(Branch::pluck('name', 'id'))
                         ->required()
@@ -71,6 +70,7 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
                             $address = Branch::find($state)->address;
                             $set('address', $address);
                         }),
+                        Forms\Components\TextInput::make('address')->disabled(),
                         Forms\Components\Select::make('type_of_case_id')->label("Type Of Case")
                         ->options(TypeOfCase::pluck('name', 'id'))
                         ->required(),
@@ -204,6 +204,7 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
             ->button()
             ->outlined()
             ->color('success')
+            ->visible(false)
             // ->mountUsing(fn (Forms\ComponentContainer $form, MasterlistModel $record) => $form->fill([
             //     'type_of_case_id' => $record->type_of_case_id,
             //     'branch_id' => $record->branch_id,

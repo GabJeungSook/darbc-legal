@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(TypeOfCase::class);
             $table->foreignIdFor(Branch::class);
             $table->foreignIdFor(Status::class);
+            $table->string('address');
             $table->string('case_code');
             $table->string('case_number');
             $table->string('case_title');
