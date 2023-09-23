@@ -104,9 +104,9 @@ class CaseTemplate extends Component implements Tables\Contracts\HasTable
                   Grid::make(2)
                   ->schema([
                     Forms\Components\TextInput::make('prepared_by')->hint('You may edit this')->required()
-                    ->default('Gabriel Jon Icawalo'),
+                    ->default('Default'),
                     Forms\Components\TextInput::make('approved_by')
-                    ->default('Gabriel Jon Icawalo')->hint('You may edit this')->required(),
+                    ->default('Default ')->hint('You may edit this')->required(),
                   ]),
             ])
         ];

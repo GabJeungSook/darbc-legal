@@ -16,7 +16,6 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Masterlist::class);
             $table->string('subject');
-            $table->json('other_data');
             $table->timestamps();
         });
     }
