@@ -1,5 +1,6 @@
 <div x-data>
-    <x-button label="PRINT" sm dark icon="printer" class="font-bold"
+    <x-button label="Back" sm slate icon="arrow-left" class="font-bold" wire:click="returnToCaseTemplate"/>
+    <x-button label="PRINT" sm emerald icon="printer" class="font-bold"
     @click="printOut($refs.printContainer.outerHTML);" />
     <div x-ref="printContainer">
         <div class="flex justify-center space-x-1">

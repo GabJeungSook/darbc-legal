@@ -120,8 +120,7 @@ class CaseTemplate extends Component implements Tables\Contracts\HasTable
             ->outlined()
             ->icon('heroicon-o-eye')
             ->color('primary')
-            ->url(fn (CaseTemplateModel $record): string => route('view-case-template', $record))
-            ->openUrlInNewTab(),
+            ->url(fn (CaseTemplateModel $record): string => route('view-case-template', $record)),
             Action::make('update')
             ->button()
             ->outlined()
