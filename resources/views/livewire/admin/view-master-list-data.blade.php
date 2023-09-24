@@ -78,6 +78,7 @@
                               <thead class="bg-gray-200">
                                 <tr>
                                   <th scope="col" class="py-5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Subject</th>
+                                  <th scope="col" class="px-3 py-5 text-left text-sm font-semibold text-gray-900"></th>
                                   <th scope="col" class="px-3 py-5 text-left text-sm font-semibold text-gray-900">Date</th>
                                   <th scope="col" class="px-3 py-5 text-left text-sm font-semibold text-gray-900">Subject Area</th>
                                   <th scope="col" class="px-3 py-5 text-left text-sm font-semibold text-gray-900">Summary of Case</th>
@@ -98,12 +99,20 @@
                                     <tr>
                                         @if ($loop->first)
                                             <td class="whitespace-nowrap py-4 pr-3 text-sm font-medium text-gray-900 pl-2" rowspan="{{ $rowCount }}">
-                                                <div">
+                                                <div>
                                                 <x-button.circle class="mr-4" info xs label="+" wire:click="addExistingCaseData({{$existingCase->id}})"/>
                                                 {{ strtoupper($existingCase->subject) }}
-                                            </div>
+                                                </div>
                                             </td>
                                         @endif
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                            <button class="p-0 flex justify-center align-middle" wire:click="showExistingCaseData({{$value->id}})">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"  fill="currentColor" class="w-5 h-5 text-green-600 cursor-pointer">
+                                                    <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />
+                                                    <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
+                                                  </svg>
+                                                </button>
+                                        </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ Carbon\Carbon::parse($value->date_time)->format('F d, Y') }}</td>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $value->subject_area }}</td>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $value->summary_of_case }}</td>
@@ -197,6 +206,26 @@
                         <div class="flex">
                             <x-button flat label="Cancel" x-on:click="close" />
                             <x-button primary label="Save" wire:click="saveExistingCaseData" />
+                        </div>
+                    </div>
+                </x-slot>
+            </x-modal.card>
+
+            <x-modal.card title="Update Existing Case Data" align="center" blur wire:model.defer="update_existing_case_datas">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <x-datetime-picker label="Date" without-time wire:model.defer="date_time"/>
+                    <x-input label="Subject Area" wire:model.defer="subject_area"/>
+                    <x-input label="Summary of Case" wire:model.defer="summary_of_case"/>
+                    <x-input label="Petitioners / Representative" wire:model.defer="petitioners_representative"/>
+                    <x-input label="Executed By" wire:model.defer="executed_by"/>
+                    <x-input label="Status" wire:model.defer="status"/>
+                </div>
+
+                <x-slot name="footer">
+                    <div class="flex justify-end gap-x-4">
+                        <div class="flex">
+                            <x-button flat label="Cancel" x-on:click="close" />
+                            <x-button primary label="Save" wire:click="updateExistingCaseData" />
                         </div>
                     </div>
                 </x-slot>

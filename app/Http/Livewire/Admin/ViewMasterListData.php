@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin;
 
 use App\Models\Branch;
 use App\Models\ExistingCase;
+use App\Models\ExistingCaseData;
 use Filament\Forms;
 use App\Models\Status;
 use Livewire\Component;
@@ -30,6 +31,7 @@ class ViewMasterListData extends Component implements Forms\Contracts\HasForms
     public $update_masterlist = false;
     public $add_subject = false;
     public $add_existing_case_data = false;
+    public $update_existing_case_datas = false;
 
     //select
     public $type_of_cases;
@@ -47,11 +49,20 @@ class ViewMasterListData extends Component implements Forms\Contracts\HasForms
     public $branch_id;
     public $address;
     public $status_id;
+    //update existing case data
+    public $case_data;
+    public $date_time;
+    public $subject_area;
+    public $summary_of_case;
+    public $petitioners_representative;
+    public $executed_by;
+    public $status;
     //subject
     public $existing_case;
     //existing case data
     public $existing_case_data;
     public $existing_case_datas;
+
 
 
     public function getFileUrl($filename)
@@ -114,6 +125,40 @@ class ViewMasterListData extends Component implements Forms\Contracts\HasForms
         $this->record->save();
         DB::commit();
         $this->update_masterlist = false;
+        $this->emit('refreshComponent');
+        $this->dialog()->success(
+            $title = 'Success',
+            $description = 'Data successfully updated'
+        );
+    }
+
+    public function showExistingCaseData($id)
+    {
+
+        $data = ExistingCaseData::where('id', $id)->first();
+        $this->case_data = $data;
+        $this->date_time = $data->date_time;
+        $this->subject_area = $data->subject_area;
+        $this->summary_of_case = $data->summary_of_case;
+        $this->petitioners_representative = $data->petitioners_representative;
+        $this->executed_by = $data->executed_by;
+        $this->status = $data->status;
+        $this->update_existing_case_datas = true;
+    }
+
+    public function updateExistingCaseData()
+    {
+        DB::beginTransaction();
+        $this->case_data->date_time = $this->date_time;
+        $this->case_data->subject_area = $this->subject_area;
+        $this->case_data->summary_of_case = $this->summary_of_case;
+        $this->case_data->petitioners_representative = $this->petitioners_representative;
+        $this->case_data->executed_by = $this->executed_by;
+        $this->case_data->status = $this->status;
+        $this->case_data->save();
+        DB::commit();
+
+        $this->update_existing_case_datas = false;
         $this->emit('refreshComponent');
         $this->dialog()->success(
             $title = 'Success',

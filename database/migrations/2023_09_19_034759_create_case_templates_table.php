@@ -23,7 +23,7 @@ return new class extends Migration
             $table->json('defendants');
             $table->text('case_description');
             $table->json('latest_order');
-            $table->text('note');
+            $table->text('note')->nullable();
             $table->string('prepared_by');
             $table->string('approved_by');
             $table->timestamps();
