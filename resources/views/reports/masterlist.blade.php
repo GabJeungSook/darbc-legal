@@ -26,7 +26,7 @@
             </th>
             <th class="border text-left whitespace-nowrap px-2 text-sm font-semibold text-gray-500 py-2">LEGAL COUNSEL
             </th>
-            <th class="border text-left whitespace-nowrap px-2 text-sm font-semibold text-gray-500 py-2">CONSEL OF OPPOSING PARTY
+            <th class="border text-left whitespace-nowrap px-2 text-sm font-semibold text-gray-500 py-2">COUNSEL OF OPPOSING PARTY
             </th>
             <th class="border text-left whitespace-nowrap px-2 text-sm font-semibold text-gray-500 py-2">DATE FILED
             </th>

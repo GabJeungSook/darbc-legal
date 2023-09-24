@@ -124,7 +124,7 @@ class CaseTemplate extends Component implements Tables\Contracts\HasTable
             ->button()
             ->outlined()
             ->icon('heroicon-o-pencil')
-            ->color('success'),
+            ->color('success')->visible(false),
         ];
     }
 

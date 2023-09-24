@@ -8,6 +8,10 @@
             <div class="grid grid-cols-3">
                 <div class="col-span-1 space-y-2">
                     <div class="flex space-x-3">
+                        <dt class="text-sm font-semibold leading-6 text-gray-900">Date Filed:</dt>
+                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{\Carbon\Carbon::parse($record->date_filed)->format('F d, Y')}}</dd>
+                    </div>
+                    <div class="flex space-x-3">
                         <dt class="text-sm font-semibold leading-6 text-gray-900">Case Code:</dt>
                         <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{$record->case_code}}</dd>
                     </div>
@@ -19,13 +23,13 @@
                         <dt class="text-sm font-semibold leading-6 text-gray-900">Case Title:</dt>
                         <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{$record->case_title}}</dd>
                     </div>
-                    <div class="flex space-x-3">
-                        <dt class="text-sm font-semibold leading-6 text-gray-900">Nature of Case:</dt>
-                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{$record->case_nature}}</dd>
-                    </div>
                 </div>
                 <div class="col-span-1">
                     <div class="col-span-1 space-y-2">
+                        <div class="flex space-x-3">
+                            <dt class="text-sm font-semibold leading-6 text-gray-900">Nature of Case:</dt>
+                            <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{$record->case_nature}}</dd>
+                        </div>
                         <div class="flex space-x-3">
                             <dt class="text-sm font-semibold leading-6 text-gray-900">Type of Case:</dt>
                             <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{$record->type_of_case->name}}</dd>
@@ -37,10 +41,6 @@
                         <div class="flex space-x-3">
                             <dt class="text-sm font-semibold leading-6 text-gray-900">Counsel of Opposing Party:</dt>
                             <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{$record->opposing_counsel}}</dd>
-                        </div>
-                        <div class="flex space-x-3">
-                            <dt class="text-sm font-semibold leading-6 text-gray-900">Date Filed:</dt>
-                            <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{\Carbon\Carbon::parse($record->date_filed)->format('F d, Y')}}</dd>
                         </div>
                     </div>
                 </div>
