@@ -86,8 +86,7 @@ class CaseTemplate extends Component implements Tables\Contracts\HasTable
                 ]),
                   Forms\Components\TextInput::make('case_description')->label('Case Description')
                   ->required(),
-                  Forms\Components\Textarea::make('note')
-                  ->required(),
+                  Forms\Components\Textarea::make('note'),
                   TableRepeater::make('latest_order')
                   ->label('')
                   ->createItemButtonLabel('Add row')
