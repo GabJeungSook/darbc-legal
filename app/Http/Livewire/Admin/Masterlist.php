@@ -41,6 +41,19 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
             ->disableCreateAnother()
             ->modalHeading('Add new')
             ->modalButton('Save')
+            // ->beforeFormValidated(function (array $data) {
+
+            //     dd($data);
+            //     $caseCodeExists = MasterlistModel::where('case_code', $data['case_code'])->exists();
+            //     $caseNumberExists = MasterlistModel::where('case_number', $data['case_number'])->exists();
+            //     if ($caseCodeExists || $caseNumberExists) {
+            //         $this->dialog()->warning(
+            //             $title = 'Warning',
+            //             $description = 'Case Code or Case Number already exists'
+            //         );
+            //         return false;
+            //     }
+            // })
             ->after(function () {
                 $this->dialog()->success(
                     $title = 'Success',
@@ -411,7 +424,20 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
                 //     // ->columnSpan('full')
                 // ])
 
-            ])->modalWidth('7xl')
+            ])->modalWidth('7xl'),
+            Action::make('delete')
+            ->button()
+            ->outlined()
+            ->icon('heroicon-o-trash')
+            ->color('danger')
+            ->action(function ($record) {
+                $record->delete();
+                $this->dialog()->success(
+                    $title = 'Success',
+                    $description = 'Deleted successfully'
+                );
+            })
+            ->requiresConfirmation()
         ];
     }
 
