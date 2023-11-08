@@ -45,7 +45,7 @@
                 </div>
               </li>
             @empty
-            <p class="text-center text-lg italic">No Records Found</p>
+            <p class="text-center text-lg italic mt-10">No Records Found</p>
             @endforelse
           </ul>
     </div>
