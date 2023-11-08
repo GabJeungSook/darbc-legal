@@ -36,6 +36,18 @@ Route::get('/masterlist-data/{record}', function ($record) {
     ->middleware(['auth', 'verified'])
     ->name('view-masterlist-data');
 
+Route::get('/inquiry', function () {
+    return view('admin.inquiry');
+})->middleware(['auth', 'verified'])->name('inquiry');
+
+Route::get('/masterlist-inquiry/{record}', function ($record) {
+    $masterlistInquiryRecord = Masterlist::findOrFail($record);
+
+    return view('admin.view-masterlist-inquiry', ['record' => $masterlistInquiryRecord]);
+})
+    ->middleware(['auth', 'verified'])
+    ->name('view-masterlist-inquiry');
+
 Route::get('/settings', function () {
     return view('admin.settings');
 })->middleware(['auth', 'verified'])->name('settings');
