@@ -17,6 +17,7 @@ use Filament\Forms\Components\Fieldset;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Actions\CreateAction;
 use Illuminate\Database\Eloquent\Builder;
@@ -41,24 +42,26 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
             ->disableCreateAnother()
             ->modalHeading('Add new')
             ->modalButton('Save')
-            // ->beforeFormValidated(function (array $data) {
+            ->before(function (array $data, CreateAction $action) {
 
-            //     dd($data);
-            //     $caseCodeExists = MasterlistModel::where('case_code', $data['case_code'])->exists();
-            //     $caseNumberExists = MasterlistModel::where('case_number', $data['case_number'])->exists();
-            //     if ($caseCodeExists || $caseNumberExists) {
-            //         $this->dialog()->warning(
-            //             $title = 'Warning',
-            //             $description = 'Case Code or Case Number already exists'
-            //         );
-            //         return false;
-            //     }
-            // })
+                //dd($data);
+                $caseCodeExists = MasterlistModel::where('case_code', $data['case_code'])->exists();
+                $caseNumberExists = MasterlistModel::where('case_number', $data['case_number'])->exists();
+                if ($caseCodeExists || $caseNumberExists) {
+                    $this->dialog()->warning(
+                        $title = 'Warning',
+                        $description = 'Case Code or Case Number already exists'
+                    );
+                    return $action->halt();
+                }
+            })
             ->after(function () {
-                $this->dialog()->success(
-                    $title = 'Success',
-                    $description = 'Saved successfully'
-                );
+                //refresh page
+                return redirect()->route('masterlist');
+                Notification::make()
+                ->title('Saved successfully')
+                ->success()
+                ->send();
             })
             ->label('Add New')
             ->button()
