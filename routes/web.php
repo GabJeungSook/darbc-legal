@@ -21,8 +21,8 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    return view('admin.inquiry');
+})->middleware(['auth', 'verified'])->name('inquiry');
 
 Route::get('/masterlist', function () {
     return view('admin.masterlist');
@@ -36,9 +36,9 @@ Route::get('/masterlist-data/{record}', function ($record) {
     ->middleware(['auth', 'verified'])
     ->name('view-masterlist-data');
 
-Route::get('/inquiry', function () {
-    return view('admin.inquiry');
-})->middleware(['auth', 'verified'])->name('inquiry');
+// Route::get('/inquiry', function () {
+//     return view('admin.inquiry');
+// })->middleware(['auth', 'verified'])->name('inquiry');
 
 Route::get('/masterlist-inquiry/{record}', function ($record) {
     $masterlistInquiryRecord = Masterlist::findOrFail($record);
