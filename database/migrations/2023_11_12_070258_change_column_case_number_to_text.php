@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::table('masterlists', function (Blueprint $table) {
             $table->text('case_number')->nullable()->change();
+            $table->text('case_title')->nullable()->change();
+            $table->text('case_nature')->nullable()->change();
         });
     }
 
@@ -23,6 +25,8 @@ return new class extends Migration
     {
         Schema::table('masterlists', function (Blueprint $table) {
             $table->string('case_number')->nullable()->change();
+            $table->string('case_title')->nullable()->change();
+            $table->string('case_nature')->nullable()->change();
         });
     }
 };
