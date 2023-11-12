@@ -104,34 +104,35 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
                     Forms\Components\Repeater::make('existing_cases')
                     ->relationship()
                     ->schema([
-                        Forms\Components\TextInput::make('subject')->required(),
+                        Forms\Components\TextInput::make('subject')
+                        ->required(),
                         TableRepeater::make('existing_case_datas')
                         ->relationship()
                         ->label('')
                         ->createItemButtonLabel('Add row')
                         ->schema([
                             Forms\Components\DatePicker::make('date_time')
-                            ->required()
+                          //  ->required()
                             ->disableLabel(),
                             TextInput::make('subject_area')
-                            ->required()
+                           // ->required()
                             ->disableLabel(),
                             TextInput::make('summary_of_case')
-                            ->required()
+                          //  ->required()
                             ->disableLabel(),
                             TextInput::make('petitioners_representative')
                             ->label('Petitioners / Representatives')
-                            ->required()
+                           //->required()
                             ->disableLabel(),
                             TextInput::make('executed_by')
-                            ->required()
+                            //->required()
                             ->disableLabel(),
                             TextInput::make('status')
-                            ->required()
+                            //->required()
                             ->disableLabel(),
                             FileUpload::make('attachment_path')
                             ->label('Attachment')
-                            ->required()
+                            //->required()
                             ->preserveFilenames()
                             ->disableLabel(),
                         ])
