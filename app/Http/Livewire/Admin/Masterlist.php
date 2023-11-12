@@ -104,8 +104,8 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
                     Forms\Components\Repeater::make('existing_cases')
                     ->relationship()
                     ->schema([
-                        Forms\Components\TextInput::make('subject')
-                        ->required(),
+                        Forms\Components\TextInput::make('subject'),
+                        //->required(),
                         TableRepeater::make('existing_case_datas')
                         ->relationship()
                         ->label('')
