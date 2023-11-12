@@ -99,8 +99,8 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
                         ->required(),
 
                     ]),
-                    Forms\Components\DatePicker::make('date_filed')->label("Date Filed")
-                    ->required(),
+                    Forms\Components\DatePicker::make('date_filed')->label("Date Filed"),
+                    //->required(),
                     Forms\Components\Repeater::make('existing_cases')
                     ->relationship()
                     ->schema([
