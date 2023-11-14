@@ -449,23 +449,23 @@ class Masterlist extends Component implements Tables\Contracts\HasTable
     {
         return [
             Tables\Columns\TextColumn::make('case_code')
-            ->label('CASE CODE')->sortable()->searchable(),
+            ->label('CASE CODE')->sortable()->searchable()->wrap(),
             Tables\Columns\TextColumn::make('case_number')
-            ->label('CASE NUMBER')->sortable()->searchable(),
+            ->label('CASE NUMBER')->sortable()->searchable()->wrap(),
             Tables\Columns\TextColumn::make('case_title')
-            ->label('CASE TITLE')->sortable()->searchable(),
+            ->label('CASE TITLE')->sortable()->searchable()->wrap(),
             Tables\Columns\TextColumn::make('case_nature')
-            ->label('NATURE OF CASE')->sortable()->searchable(),
+            ->label('NATURE OF CASE')->sortable()->searchable()->wrap(),
             Tables\Columns\TextColumn::make('type_of_case.name')
-            ->label('TYPE OF CASE')->sortable()->searchable(),
+            ->label('TYPE OF CASE')->sortable()->searchable()->wrap(),
             Tables\Columns\TextColumn::make('legal_counsel')
-            ->label('LEGAL COUNSEL')->sortable()->searchable(),
+            ->label('LEGAL COUNSEL')->sortable()->searchable()->wrap(),
             Tables\Columns\TextColumn::make('opposing_counsel')
-            ->label('COUNSEL OF OPPOSING PARTY')->sortable()->searchable(),
+            ->label('COUNSEL OF OPPOSING PARTY')->sortable()->searchable()->wrap(),
             Tables\Columns\TextColumn::make('date_filed')
             ->label('DATE FILED')->date('F d, Y')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('branch.name')
-            ->label('BRANCH')->sortable()->searchable(),
+            ->label('BRANCH')->sortable()->searchable()->wrap(),
         ];
     }
 
