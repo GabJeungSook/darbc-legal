@@ -59,33 +59,43 @@ class AddSubject extends Component implements Forms\Contracts\HasForms
         ];
     }
 
-    public function saveExistingCaseData()
-    {
-        foreach ($this->existing_cases as $key => $value) {
-            $existing_case = ExistingCase::create([
-                'masterlist_id' => $this->record->id,
-                'subject' => $value['subject']
-            ]);
-
-            foreach ($value['existing_case_datas'] as $data_key => $data_value) {
-                $attachmentArray = array_values($data_value['attachment_path']);
-                $attachmentFile = reset($attachmentArray);
-
-                $existing_case->existing_case_datas()->create([
-                    'existing_case_id' => $existing_case->id,
-                    'date_time' => $data_value['date_time'],
-                    'subject_area' => $data_value['subject_area'],
-                    'summary_of_case' => $data_value['summary_of_case'],
-                    'petitioners_representative' => $data_value['petitioners_representative'],
-                    'executed_by' => $data_value['executed_by'],
-                    'status' => $data_value['status'],
-                    'attachment_path' => $attachmentFile->getClientOriginalName(),
+        public function saveExistingCaseData()
+        {
+            foreach ($this->existing_cases as $key => $value) {
+                $existing_case = ExistingCase::create([
+                    'masterlist_id' => $this->record->id,
+                    'subject' => $value['subject']
                 ]);
 
+                foreach ($value['existing_case_datas'] as $data_key => $data_value) {
+                    $attachmentArray = array_values($data_value['attachment_path']);
+                    $attachmentFile = reset($attachmentArray);
+                    if (is_object($attachmentFile) && method_exists($attachmentFile, 'getClientOriginalName')) {
+                    $existing_case->existing_case_datas()->create([
+                        'existing_case_id' => $existing_case->id,
+                        'date_time' => $data_value['date_time'],
+                        'subject_area' => $data_value['subject_area'],
+                        'summary_of_case' => $data_value['summary_of_case'],
+                        'petitioners_representative' => $data_value['petitioners_representative'],
+                        'executed_by' => $data_value['executed_by'],
+                        'status' => $data_value['status'],
+                        'attachment_path' => $attachmentFile->getClientOriginalName(),
+                    ]);
+                }else{
+                    $existing_case->existing_case_datas()->create([
+                        'existing_case_id' => $existing_case->id,
+                        'date_time' => $data_value['date_time'],
+                        'subject_area' => $data_value['subject_area'],
+                        'summary_of_case' => $data_value['summary_of_case'],
+                        'petitioners_representative' => $data_value['petitioners_representative'],
+                        'executed_by' => $data_value['executed_by'],
+                        'status' => $data_value['status'],
+                    ]);
+                }
+                }
             }
+            $this->emit('closeModal');
         }
-        $this->emit('closeModal');
-    }
 
     public function mount()
     {
