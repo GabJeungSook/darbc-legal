@@ -100,6 +100,7 @@
                                         @if ($loop->first)
                                             <td class="whitespace-nowrap py-4 pr-3 text-sm font-medium text-gray-900 pl-2" rowspan="{{ $rowCount }}">
                                                 <div>
+                                                {{-- <x-button.circle class="mr-4" negative xs icon="trash" wire:click="deleteSubject({{$existingCase->id}})"/> --}}
                                                 <x-button.circle class="mr-4" info xs label="+" wire:click="addExistingCaseData({{$existingCase->id}})"/>
                                                 {{ strtoupper($existingCase->subject) }}
                                                 </div>

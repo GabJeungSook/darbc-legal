@@ -174,6 +174,17 @@ class ViewMasterListData extends Component implements Forms\Contracts\HasForms
         $attachmentArray = array_values($data_value['attachment_path']);
         $attachmentFile = reset($attachmentArray);
 
+        if (is_object($attachmentFile) && method_exists($attachmentFile, 'getClientOriginalName')) {
+        $existing_case->existing_case_datas()->create([
+            'existing_case_id' => $existing_case->id,
+            'date_time' => $data_value['date_time'],
+            'subject_area' => $data_value['subject_area'],
+            'summary_of_case' => $data_value['summary_of_case'],
+            'petitioners_representative' => $data_value['petitioners_representative'],
+            'executed_by' => $data_value['executed_by'],
+            'status' => $data_value['status'],
+        ]);
+    }else{
         $existing_case->existing_case_datas()->create([
             'existing_case_id' => $existing_case->id,
             'date_time' => $data_value['date_time'],
@@ -184,6 +195,7 @@ class ViewMasterListData extends Component implements Forms\Contracts\HasForms
             'status' => $data_value['status'],
             'attachment_path' => $attachmentFile->getClientOriginalName(),
         ]);
+    }
         DB::commit();
         $this->add_existing_case_data = false;
         $this->emit('refreshComponent');
@@ -210,24 +222,24 @@ class ViewMasterListData extends Component implements Forms\Contracts\HasForms
                 ->required()
                 ->disableLabel(),
                 TextInput::make('subject_area')
-                ->required()
+               // ->required()
                 ->disableLabel(),
                 TextInput::make('summary_of_case')
-                ->required()
+                //->required()
                 ->disableLabel(),
                 TextInput::make('petitioners_representative')
                 ->label('Petitioners / Representatives')
-                ->required()
+               // ->required()
                 ->disableLabel(),
                 TextInput::make('executed_by')
-                ->required()
+               // ->required()
                 ->disableLabel(),
                 TextInput::make('status')
-                ->required()
+              //  ->required()
                 ->disableLabel(),
                 FileUpload::make('attachment_path')
                 ->label('Attachment')
-                ->required()
+              //  ->required()
                 ->preserveFilenames()
                 ->disableLabel(),
             ])
