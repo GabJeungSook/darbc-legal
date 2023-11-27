@@ -183,6 +183,7 @@ class ViewMasterListData extends Component implements Forms\Contracts\HasForms
             'petitioners_representative' => $data_value['petitioners_representative'],
             'executed_by' => $data_value['executed_by'],
             'status' => $data_value['status'],
+            'attachment_path' => $attachmentFile->getClientOriginalName(),
         ]);
     }else{
         $existing_case->existing_case_datas()->create([
@@ -193,7 +194,7 @@ class ViewMasterListData extends Component implements Forms\Contracts\HasForms
             'petitioners_representative' => $data_value['petitioners_representative'],
             'executed_by' => $data_value['executed_by'],
             'status' => $data_value['status'],
-            'attachment_path' => $attachmentFile->getClientOriginalName(),
+
         ]);
     }
         DB::commit();
