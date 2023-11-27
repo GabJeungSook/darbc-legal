@@ -30,28 +30,28 @@ class AddSubject extends Component implements Forms\Contracts\HasForms
                 ->createItemButtonLabel('Add row')
                 ->schema([
                     Forms\Components\DatePicker::make('date_time')
-                    ->required()
+                   // ->required()
                     ->disableLabel(),
                     TextInput::make('subject_area')
-                    ->required()
+                    //->required()
                     ->disableLabel(),
                     TextInput::make('summary_of_case')
-                    ->required()
+                  //  ->required()
                     ->disableLabel(),
                     TextInput::make('petitioners_representative')
                     ->label('Petitioners / Representatives')
-                    ->required()
+                  //  ->required()
                     ->disableLabel(),
                     TextInput::make('executed_by')
-                    ->required()
+                 //   ->required()
                     ->disableLabel(),
                     TextInput::make('status')
-                    ->required()
+                  //  ->required()
                     ->disableLabel(),
                     FileUpload::make('attachment_path')
                     ->label('Attachment')
-                    ->required()
                     ->preserveFilenames()
+                  //  ->required()
                     ->disableLabel(),
                 ])
                 ->columnSpan('full')
