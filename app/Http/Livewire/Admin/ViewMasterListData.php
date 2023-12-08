@@ -62,6 +62,8 @@ class ViewMasterListData extends Component implements Forms\Contracts\HasForms
     //existing case data
     public $existing_case_data;
     public $existing_case_datas;
+    public $existing_case_data_delete;
+    public $subject_delete;
 
 
 
@@ -144,6 +146,54 @@ class ViewMasterListData extends Component implements Forms\Contracts\HasForms
         $this->executed_by = $data->executed_by;
         $this->status = $data->status;
         $this->update_existing_case_datas = true;
+    }
+
+    public function deleteSubject($id)
+    {
+        $this->subject_delete = ExistingCase::where('id', $id)->first();
+        $this->dialog()->confirm([
+            'title'       => 'Are you Sure?',
+            'icon'        => 'error',
+            'description' => 'Delete this subject?',
+            'acceptLabel' => 'Yes, delete it',
+            'method'      => 'confirmDeleteSubject',
+        ]);
+    }
+
+    public function confirmDeleteSubject()
+    {
+        $existing_case_data = ExistingCaseData::where('existing_case_id', $this->subject_delete->id)->get();
+        foreach ($existing_case_data as $key => $value) {
+            $value->delete();
+        }
+        $this->subject_delete->delete();
+        $this->emit('refreshComponent');
+        $this->dialog()->success(
+            $title = 'Success',
+            $description = 'Subject successfully deleted'
+        );
+    }
+
+    public function deleteExistingCaseData($id)
+    {
+        $this->existing_case_data_delete = ExistingCaseData::where('id', $id)->first();
+        $this->dialog()->confirm([
+            'title'       => 'Are you Sure?',
+            'icon'        => 'error',
+            'description' => 'Delete this data?',
+            'acceptLabel' => 'Yes, delete it',
+            'method'      => 'confirmDeleteExistingCaseData',
+        ]);
+    }
+
+    public function confirmDeleteExistingCaseData()
+    {
+        $this->existing_case_data_delete->delete();
+        $this->emit('refreshComponent');
+        $this->dialog()->success(
+            $title = 'Success',
+            $description = 'Data successfully deleted'
+        );
     }
 
     public function updateExistingCaseData()

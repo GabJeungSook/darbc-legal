@@ -46,7 +46,7 @@
               <td class="border text-gray-600 text-sm whitespace-nowrap px-3  py-1">{{ strtoupper($item->legal_counsel) }}</td>
               <td class="border text-gray-600 text-sm whitespace-nowrap px-3  py-1">{{ strtoupper($item->opposing_counsel) }}</td>
               <td class="border text-gray-600 text-sm whitespace-nowrap px-3  py-1">{{ Carbon\Carbon::parse($item->date_filed)->format('F d, Y') }}</td>
-              <td class="border text-gray-600 text-sm whitespace-nowrap px-3  py-1">{{ strtoupper($item->branch->name) }}</td>
+              <td class="border text-gray-600 text-sm whitespace-nowrap px-3  py-1">{{ strtoupper($item->branch?->name) }}</td>
             </tr>
           @endforeach
         </tbody>

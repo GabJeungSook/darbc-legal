@@ -7,8 +7,8 @@
             @endforeach
 
         </x-native-select>
-        <x-native-select label="Request" wire:model.defer="selected_request">
-            <option value="">Select one</option>
+        <x-native-select label="Request" wire:model="selected_request">
+            <option value="">All</option>
             <option>Branch</option>
             <option>Address</option>
             <option>Case Code</option>
@@ -16,8 +16,23 @@
             <option>Case Title</option>
             <option>Nature of Case</option>
             <option>Legal Council</option>
+            <option>Council of Opposing Party</option>
+            <option>Date Filed</option>
         </x-native-select>
+        @if ($is_branch)
+        <x-native-select label="Branch" wire:model="selected_branch">
+            <option value="">Select one</option>
+            @foreach ($branches as $item)
+            <option value="{{$item->id}}">{{$item->name}}</option>
+            @endforeach
+        </x-native-select>
+        @elseif ($is_date)
+        <x-datetime-picker label="Date Filed" without-time placeholder="Date Filed" wire:model.defer="selected_date" />
+        @else
         <x-input label="Search" placeholder="" wire:model.defer="query"/>
+        @endif
+
+
         <div class="flex items-end">
             <x-button indigo label="Search" wire:click="generateQuery"/>
         </div>
@@ -32,11 +47,11 @@
                     <p class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-green-700 bg-green-50 ring-green-600/20">{{$item->status->name}}</p>
                   </div>
                   <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
-                    <p class="whitespace-nowrap">{{$item->case_number}}</p>
+                    <p class="whitespace-nowrap">Case Number: {{$item->case_number}}</p>
                     <svg viewBox="0 0 2 2" class="h-0.5 w-0.5 fill-current">
                       <circle cx="1" cy="1" r="1" />
                     </svg>
-                    <p class="truncate">{{\Carbon\Carbon::parse($item->created_at)->format('F d, Y')}}</p>
+                    <p class="truncate">Date Filed: {{\Carbon\Carbon::parse($item->date_filed)->format('F d, Y')}}</p>
                   </div>
                 </div>
                 <div class="flex flex-none items-center gap-x-4">
