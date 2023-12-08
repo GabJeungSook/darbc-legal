@@ -77,15 +77,15 @@
                             <table class="w-full divide-y divide-gray-300">
                               <thead class="bg-gray-200">
                                 <tr>
-                                  <th scope="col" class="py-5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Subject</th>
-                                  <th scope="col" class="px-3 py-5 text-left text-sm font-semibold text-gray-900"></th>
-                                  <th scope="col" class="px-3 py-5 text-left text-sm font-semibold text-gray-900">Date</th>
-                                  <th scope="col" class="px-3 py-5 text-left text-sm font-semibold text-gray-900">Subject Area</th>
-                                  <th scope="col" class="px-3 py-5 text-left text-sm font-semibold text-gray-900">Summary of Case</th>
-                                  <th scope="col" class="px-3 py-5 text-left text-sm font-semibold text-gray-900">Petitioners / Representative</th>
-                                  <th scope="col" class="px-3 py-5 text-left text-sm font-semibold text-gray-900">Executed By</th>
-                                  <th scope="col" class="px-3 py-5 text-left text-sm font-semibold text-gray-900">Status</th>
-                                  <th scope="col" class="px-3 py-5 text-left text-sm font-semibold text-gray-900"> Attachment </th>
+                                  <th scope="col" class="whitespace-nowrap  py-5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Subject</th>
+                                  <th scope="col" class="whitespace-nowrap  px-3 py-5 text-left text-sm font-semibold text-gray-900"></th>
+                                  <th scope="col" class="whitespace-nowrap  px-3 py-5 text-left text-sm font-semibold text-gray-900">Date</th>
+                                  <th scope="col" class="whitespace-nowrap  px-3 py-5 text-left text-sm font-semibold text-gray-900">Subject Area</th>
+                                  <th scope="col" class="whitespace-nowrap  px-3 py-5 text-left text-sm font-semibold text-gray-900">Summary of Case</th>
+                                  <th scope="col" class="whitespace-nowrap  px-3 py-5 text-left text-sm font-semibold text-gray-900">Petitioners / Representative</th>
+                                  <th scope="col" class="whitespace-nowrap  px-3 py-5 text-left text-sm font-semibold text-gray-900">Executed By</th>
+                                  <th scope="col" class="whitespace-nowrap  px-3 py-5 text-left text-sm font-semibold text-gray-900">Status</th>
+                                  <th scope="col" class="whitespace-nowrap  px-3 py-5 text-left text-sm font-semibold text-gray-900"> Attachment </th>
                                 </tr>
                               </thead>
                               <tbody class="divide-y divide-gray-200 bg-white">
