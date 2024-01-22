@@ -77,7 +77,7 @@ class Branch extends Component implements Tables\Contracts\HasTable
             ->form([
                 Forms\Components\TextInput::make('name')->label("Name")->required(),
                 Forms\Components\Textarea::make('address')->label("Address")->required(),
-            ])->visible(fn ($record) => $record->masterlists->count() === 0),
+            ])->visible(),
             Action::make('delete')
             ->icon('heroicon-o-trash')
             ->button()
