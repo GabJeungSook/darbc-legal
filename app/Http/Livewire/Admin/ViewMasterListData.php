@@ -25,13 +25,15 @@ class ViewMasterListData extends Component implements Forms\Contracts\HasForms
     use Actions;
     protected $listeners = [
         'refreshComponent' => '$refresh',
-        'closeModal' => 'savedExistingCase'
+        'closeModal' => 'savedExistingCase',
+        'closeUploadFileModal' => 'savedUploadFile'
     ];
     public $record;
     public $update_masterlist = false;
     public $add_subject = false;
     public $add_existing_case_data = false;
     public $update_existing_case_datas = false;
+    public $upload_file = false;
 
     //select
     public $type_of_cases;
@@ -57,12 +59,14 @@ class ViewMasterListData extends Component implements Forms\Contracts\HasForms
     public $petitioners_representative;
     public $executed_by;
     public $status;
+
     //subject
     public $existing_case;
     //existing case data
     public $existing_case_data;
     public $existing_case_datas;
     public $existing_case_data_delete;
+    public $existing_case_data_upload;
     public $subject_delete;
 
 
@@ -70,6 +74,13 @@ class ViewMasterListData extends Component implements Forms\Contracts\HasForms
     public function getFileUrl($filename)
     {
         return Storage::url($filename);
+    }
+
+    public function download($filePath)
+    {
+        $path = storage_path("app/public/{$filePath}");
+
+        return response()->download($path);
     }
 
     public function updatedBranchId()
@@ -93,6 +104,17 @@ class ViewMasterListData extends Component implements Forms\Contracts\HasForms
             $title = 'Success',
             $description = 'Data successfully saved'
         );
+    }
+
+    public function savedUploadFile()
+    {
+        $this->upload_file = false;
+        $this->dialog()->success(
+            $title = 'Success',
+            $description = 'File successfully uploaded'
+        );
+
+        $this->emit('refreshComponent');
     }
 
     public function showMasterlistData()
@@ -221,21 +243,10 @@ class ViewMasterListData extends Component implements Forms\Contracts\HasForms
        $existing_case = ExistingCase::where('id', $this->existing_case_data)->first();
        DB::beginTransaction();
        foreach ($this->existing_case_datas as $data_key => $data_value) {
-        $attachmentArray = array_values($data_value['attachment_path']);
-        $attachmentFile = reset($attachmentArray);
+        // $attachmentArray = array_values($data_value['attachment_path']);
+        // $attachmentFile = reset($attachmentArray);
 
-        if (is_object($attachmentFile) && method_exists($attachmentFile, 'getClientOriginalName')) {
-        $existing_case->existing_case_datas()->create([
-            'existing_case_id' => $existing_case->id,
-            'date_time' => $data_value['date_time'],
-            'subject_area' => $data_value['subject_area'],
-            'summary_of_case' => $data_value['summary_of_case'],
-            'petitioners_representative' => $data_value['petitioners_representative'],
-            'executed_by' => $data_value['executed_by'],
-            'status' => $data_value['status'],
-            'attachment_path' => $attachmentFile->getClientOriginalName(),
-        ]);
-    }else{
+
         $existing_case->existing_case_datas()->create([
             'existing_case_id' => $existing_case->id,
             'date_time' => $data_value['date_time'],
@@ -246,7 +257,31 @@ class ViewMasterListData extends Component implements Forms\Contracts\HasForms
             'status' => $data_value['status'],
 
         ]);
-    }
+
+
+    //     if (is_object($attachmentFile) && method_exists($attachmentFile, 'getClientOriginalName')) {
+    //     $existing_case->existing_case_datas()->create([
+    //         'existing_case_id' => $existing_case->id,
+    //         'date_time' => $data_value['date_time'],
+    //         'subject_area' => $data_value['subject_area'],
+    //         'summary_of_case' => $data_value['summary_of_case'],
+    //         'petitioners_representative' => $data_value['petitioners_representative'],
+    //         'executed_by' => $data_value['executed_by'],
+    //         'status' => $data_value['status'],
+    //         'attachment_path' => $attachmentFile->getClientOriginalName(),
+    //     ]);
+    // }else{
+    //     $existing_case->existing_case_datas()->create([
+    //         'existing_case_id' => $existing_case->id,
+    //         'date_time' => $data_value['date_time'],
+    //         'subject_area' => $data_value['subject_area'],
+    //         'summary_of_case' => $data_value['summary_of_case'],
+    //         'petitioners_representative' => $data_value['petitioners_representative'],
+    //         'executed_by' => $data_value['executed_by'],
+    //         'status' => $data_value['status'],
+
+    //     ]);
+    // }
         DB::commit();
         $this->add_existing_case_data = false;
         $this->emit('refreshComponent');
@@ -260,6 +295,12 @@ class ViewMasterListData extends Component implements Forms\Contracts\HasForms
     public function returnToDashboard()
     {
         return redirect()->route('masterlist');
+    }
+
+    public function uploadFileModal($id)
+    {
+        $this->existing_case_data_upload = ExistingCaseData::where('id', $id)->first();
+        $this->upload_file = true;
     }
 
     protected function getFormSchema(): array
@@ -288,11 +329,10 @@ class ViewMasterListData extends Component implements Forms\Contracts\HasForms
                 TextInput::make('status')
               //  ->required()
                 ->disableLabel(),
-                FileUpload::make('attachment_path')
-                ->label('Attachment')
-              //  ->required()
-                ->preserveFilenames()
-                ->disableLabel(),
+                // FileUpload::make('attachment_path')
+                // ->label('Attachment')
+                // ->preserveFilenames()
+                // ->disableLabel(),
             ])
             ->columnSpan('full')
         ];

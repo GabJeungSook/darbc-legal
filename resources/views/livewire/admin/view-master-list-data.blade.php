@@ -132,16 +132,57 @@
                                         <td class="break-words px-3 py-4 text-sm text-gray-500">{{ $value->executed_by }}</td>
                                         <td class="break-words px-3 py-4 text-sm text-gray-500">{{ $value->status }}</td>
                                         <td class="break-words px-3 py-4 text-sm">
-                                            <div class="flex justify-between">
-                                              <div class="text-blue-700 underline">
+                                            <div class="flex justify-center space-x-4">
+                                                    @if ($value->attachment_path === null)
+                                                    <div>
+                                                        <button wire:click="uploadFileModal('{{$value->id}}')">
+                                                            <div class="flex flex-col items-center">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-600">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15" />
+                                                                </svg>
+                                                                <small class="text-blue-600">Upload</small>
+                                                            </div>
+                                                        </button>
+                                                    </div>
+                                                    @endif
+                                              {{-- <div class="text-blue-700 underline">
                                                 <a href="{{ $this->getFileUrl($value->attachment_path) }}" target="_blank">{{ $value->attachment_path ?? '' }}
                                                 </a>
-                                              </div>
+                                              </div> --}}
+                                              @if ($value->attachment_path !== null)
+                                              <div>
+                                                <button wire:click="uploadFileModal('{{$value->id}}')">
+                                                    <div class="flex flex-col items-center">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-green-600">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                          </svg>
+                                                        <small class="text-green-600">Edit</small>
+                                                    </div>
+                                                </button>
+                                            </div>
                                               <div class="">
-                                                {{-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-red-600 cursor-pointer">
-                                                  <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.256 1.478l-.209-.035-1.005 13.07a3 3 0 01-2.991 2.77H8.084a3 3 0 01-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 01-.256-1.478A48.567 48.567 0 017.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 013.369 0c1.603.051 2.815 1.387 2.815 2.951zm-6.136-1.452a51.196 51.196 0 013.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 00-6 0v-.113c0-.794.609-1.428 1.364-1.452zm-.355 5.945a.75.75 0 10-1.5.058l.347 9a.75.75 0 101.499-.058l-.346-9zm5.48.058a.75.75 0 10-1.498-.058l-.347 9a.75.75 0 001.5.058l.345-9z" clip-rule="evenodd" />
-                                                </svg> --}}
+                                                <a href="{{ $this->getFileUrl($value->attachment_path) }}" target="_blank" class="text-center">
+                                                    <div class="flex flex-col items-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-yellow-600">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                      </svg>
+                                                      <small class="text-yellow-600">View</small>
+                                                    </div>
+                                                </a>
+
                                               </div>
+                                              <div>
+                                                <div class="flex flex-col items-center">
+                                                <button wire:click="download('{{ $value->attachment_path }}')">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-600">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                                                    </svg>
+                                                </button>
+                                                <small class="text-blue-600">Download</small>
+                                                </div>
+                                              </div>
+                                              @endif
                                             </div>
                                           </td>
                                     </tr>
@@ -241,5 +282,14 @@
                         </div>
                     </div>
                 </x-slot>
+            </x-modal.card>
+
+            {{-- Upload File --}}
+            <x-modal.card title="Upload File" max-width="6xl" align="center" blur wire:model.defer="upload_file">
+                <div>
+                    @if ($existing_case_data_upload)
+                    <livewire:admin.forms.upload-file :record="$existing_case_data_upload" />
+                    @endif
+                </div>
             </x-modal.card>
 </div>
