@@ -104,6 +104,7 @@ class ViewMasterListData extends Component implements Forms\Contracts\HasForms
             $title = 'Success',
             $description = 'Data successfully saved'
         );
+        return redirect()->route('view-masterlist-data', $this->record);
     }
 
     public function savedUploadFile()
@@ -115,6 +116,7 @@ class ViewMasterListData extends Component implements Forms\Contracts\HasForms
         );
 
         $this->emit('refreshComponent');
+        return redirect()->route('view-masterlist-data', $this->record);
     }
 
     public function showMasterlistData()
