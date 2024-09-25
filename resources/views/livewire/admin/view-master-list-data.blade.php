@@ -89,7 +89,7 @@
                                 </tr>
                               </thead>
                               <tbody class="divide-y divide-gray-200 bg-white">
-                                @foreach ($record->existing_cases as $existingCase)
+                                @foreach ($record->existing_cases->sortByDesc('date_time') as $existingCase)
                                 @php
                                     $otherData = $existingCase->existing_case_datas->sortByDesc('date_time');
                                     // $otherData = json_decode($existingCase->other_data, true);
